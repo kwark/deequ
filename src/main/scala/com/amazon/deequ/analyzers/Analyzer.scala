@@ -435,7 +435,7 @@ private[deequ] object Analyzers {
     if (nullInResult) {
       None
     } else {
-      Option(func(Unit))
+      Option(func(()))
     }
   }
 

@@ -50,6 +50,7 @@ private[repository] object AnalysisResult {
       .withColumn(DATASET_DATE_FIELD, lit(analysisResult.resultKey.dataSetDate))
 
     analysisResult.resultKey.tags
+      .view
       .filterKeys(tagName => withTags.isEmpty || withTags.contains(tagName))
       .map { case (tagName, tagValue) =>
           formatTagColumnNameInDataFrame(tagName, analyzerContextDF) -> tagValue}
@@ -74,13 +75,14 @@ private[repository] object AnalysisResult {
     : String = {
 
     var serializableResult = SimpleResultSerde.deserialize(
-        AnalyzerContext.successMetricsAsJson(analysisResult.analyzerContext, forAnalyzers))
-      .asInstanceOf[Seq[Map[String, Any]]]
+      AnalyzerContext.successMetricsAsJson(analysisResult.analyzerContext, forAnalyzers)
+    ).toSeq
 
     serializableResult = addColumnToSerializableResult(
       serializableResult, DATASET_DATE_FIELD, analysisResult.resultKey.dataSetDate)
 
     analysisResult.resultKey.tags
+      .view
       .filterKeys(tagName => withTags.isEmpty || withTags.contains(tagName))
       .map { case (tagName, tagValue) =>
         (formatTagColumnNameInJson(tagName, serializableResult), tagValue)}

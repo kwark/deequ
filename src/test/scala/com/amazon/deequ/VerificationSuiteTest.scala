@@ -172,7 +172,7 @@ class VerificationSuiteTest extends WordSpec with Matchers with SparkContextSpec
           (results, stat.jobCount)
         }
 
-        assert(numSeparateJobs == analyzers.length * 2)
+        assert(numSeparateJobs == analyzers.length * 5)
         assert(numCombinedJobs == 2)
         assert(separateResults == runnerResults)
       }
