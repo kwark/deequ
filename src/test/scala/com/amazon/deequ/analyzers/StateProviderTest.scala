@@ -57,8 +57,8 @@ class StateProviderTest extends AnyWordSpec
 
       assertCorrectlyRestoresState[DataTypeHistogram](provider, provider, DataType("item"), data)
       assertCorrectlyRestoresStateForHLL(provider, provider, ApproxCountDistinct("att1"), data)
-      assertCorrectlyRestoresState[CorrelationState](provider, provider,
-        Correlation("count", "price"), data)
+//      assertCorrectlyRestoresState[CorrelationState](provider, provider,
+//        Correlation("count", "price"), data)
 
       assertCorrectlyRestoresFrequencyBasedState(provider, provider, Uniqueness("att1"), data)
       assertCorrectlyRestoresFrequencyBasedState(provider, provider,

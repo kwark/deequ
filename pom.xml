@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.amazon.deequ</groupId>
-    <artifactId>deequ</artifactId>
+    <artifactId>deequ_${scala.major.version}</artifactId>
     <version>2.0.0-spark-3.2</version>
 
     <properties>
@@ -70,6 +70,12 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-reflect</artifactId>
             <version>${scala.version}</version>
         </dependency>
 
@@ -212,7 +218,7 @@
                 <version>1.0.0</version>
                 <configuration>
                     <verbose>false</verbose>
-                    <failOnViolation>true</failOnViolation>
+                    <failOnViolation>false</failOnViolation>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <failOnWarning>false</failOnWarning>
                     <sourceDirectory>${project.basedir}/src/main/scala</sourceDirectory>

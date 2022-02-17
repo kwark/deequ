@@ -16,16 +16,18 @@
 
 package org.apache.spark.sql
 
-import org.apache.spark.sql.catalyst.expressions.aggregate.Corr
+import org.apache.spark.sql.catalyst.expressions.aggregate.PearsonCorrelation
 import org.apache.spark.sql.catalyst.expressions._
 import org.apache.spark.sql.types._
 
 /** Adjusted version of org.apache.spark.sql.catalyst.expressions.aggregate.Corr */
-private[sql] class StatefulCorrelation(
+private[sql] case class StatefulCorrelation(
   x: Expression,
   y: Expression,
-  nullOnDivideByZero: Boolean = false
-) extends Corr(x, y, nullOnDivideByZero) {
+) extends PearsonCorrelation(x, y, false) {
+
+  override protected def withNewChildrenInternal(newLeft: Expression, newRight: Expression): StatefulCorrelation =
+    copy(x = newLeft, y = newRight)
 
   override def dataType: org.apache.spark.sql.types.DataType =
     StructType(StructField("n", DoubleType) :: StructField("xAvg", DoubleType) ::
@@ -38,16 +40,4 @@ private[sql] class StatefulCorrelation(
 
   override def prettyName: String = "stateful_corr"
 
-  override def canEqual(other: Any): Boolean = other.isInstanceOf[StatefulCorrelation]
-
-  override def equals(other: Any): Boolean = other match {
-    case that: StatefulCorrelation =>
-      (that canEqual this) && evaluateExpression == that.evaluateExpression
-    case _ => false
-  }
-
-  override def hashCode(): Int = {
-    val state = Seq(super.hashCode(), evaluateExpression)
-    state.map { _.hashCode() }.foldLeft(0) {(a, b) => 31 * a + b }
-  }
 }

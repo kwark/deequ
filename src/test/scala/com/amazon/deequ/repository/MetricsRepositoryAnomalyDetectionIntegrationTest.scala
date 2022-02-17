@@ -195,6 +195,7 @@ class MetricsRepositoryAnomalyDetectionIntegrationTest extends AnyWordSpec with 
 
     // New size value is 8, that is an anomaly because it is lower than the last value, 10
     val sizeAnomalyCheckWithResult = verificationResult.checkResults
+      .view
       .filterKeys(_.description == "Size only increases")
       .head
     val (_, checkResultSizeAnomalyCheck) = sizeAnomalyCheckWithResult

@@ -79,7 +79,7 @@ class AnalysisRunnerTests extends AnyWordSpec
           (results, stat.jobCount)
         }
 
-        assert(numSeparateJobs == analyzers.length)
+        assert(numSeparateJobs == analyzers.length * 2)
         assert(numCombinedJobs == 1)
         assert(separateResults == runnerResults)
       }
@@ -123,7 +123,7 @@ class AnalysisRunnerTests extends AnyWordSpec
           (results, stat.jobCount)
         }
 
-        assert(numSeparateJobs == analyzers.length * 2)
+        assert(numSeparateJobs == analyzers.length * 5)
         assert(numCombinedJobs == 2)
         assert(separateResults == runnerResults)
       }
